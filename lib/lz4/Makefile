@@ -1,4 +1,3 @@
-
 ccflags-y += -O3
 ccflags-y += $(call cc-option, -g0)
 ccflags-y += $(call cc-option, -Os)
