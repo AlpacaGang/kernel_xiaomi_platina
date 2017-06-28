@@ -84,6 +84,8 @@ const DECLARE_TLV_DB_LINEAR(msm_compr_vol_gain, 0,
 
 #define MAX_NUMBER_OF_STREAMS 2
 
+#define COMPRESS_DECODER_OUTPUT_BIT_WIDTH 24
+
 #ifdef CONFIG_AINUR_DTS_HW
 /*
  * Max size for getting DTS EAGLE Param through kcontrol
@@ -1327,7 +1329,7 @@ static int msm_compr_configure_dsp_for_playback
 	struct snd_compr_runtime *runtime = cstream->runtime;
 	struct msm_compr_audio *prtd = runtime->private_data;
 	struct snd_soc_pcm_runtime *soc_prtd = cstream->private_data;
-	uint16_t bits_per_sample = 16;
+	uint16_t bits_per_sample = COMPRESS_DECODER_OUTPUT_BIT_WIDTH;
 	int dir = IN, ret = 0;
 	struct audio_client *ac = prtd->audio_client;
 	struct msm_compr_pdata *pdata =
@@ -2287,7 +2289,7 @@ static int msm_compr_trigger(struct snd_compr_stream *cstream, int cmd)
 	unsigned long flags;
 	int stream_id;
 	uint32_t stream_index;
-	uint16_t bits_per_sample = 16;
+	uint16_t bits_per_sample = COMPRESS_DECODER_OUTPUT_BIT_WIDTH;
 
 	spin_lock_irqsave(&prtd->lock, flags);
 	if (atomic_read(&prtd->error)) {
