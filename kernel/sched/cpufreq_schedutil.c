@@ -28,7 +28,6 @@ unsigned long boosted_cpu_util(int cpu);
 #define cpufreq_disable_fast_switch(x)
 #define UP_RATE_LIMIT_US			(500)
 #define DOWN_RATE_LIMIT_US			(20000)
-#define SUGOV_KTHREAD_PRIORITY	50
 
 static unsigned int default_efficient_freq[] = {0};
 static unsigned int default_up_delay[] = {0};
