@@ -264,6 +264,7 @@
 		qcom,mdss-pan-physical-height-dimension = <144>;
 		qcom,mdss-dsi-tx-eot-append;
 		qcom,ulps-enabled;
+              qcom,partial-update-enabled = "single_roi";
 		qcom,esd-err-irq-gpio = <&tlmm 59 0x2001>;
 		qcom,dispparam-enabled;
               qcom,mdss-dsi-panel-hdr-enabled;
