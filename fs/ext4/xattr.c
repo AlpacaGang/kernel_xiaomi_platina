@@ -225,7 +225,6 @@ ext4_xattr_check_block(struct inode *inode, struct buffer_head *bh)
 		return -EFSCORRUPTED;
 	if (buffer_verified(bh))
 		return 0;
-
 	if (!ext4_xattr_block_csum_verify(inode, bh->b_blocknr, BHDR(bh)))
 		return -EFSBADCRC;
 	error = ext4_xattr_check_names(BFIRST(bh), bh->b_data + bh->b_size,
@@ -683,7 +682,7 @@ ext4_xattr_set_entry(struct ext4_xattr_info *i, struct ext4_xattr_search *s,
 		s->here->e_name_len = name_len;
 		memcpy(s->here->e_name, i->name, name_len);
 	} else {
-		if (!s->here->e_value_block && s->here->e_value_size) {
+		if (!s->here->e_value_block && s->here->e_value_size && s->here->e_value_offs) {
 			void *first_val = s->base + min_offs;
 			size_t offs = le16_to_cpu(s->here->e_value_offs);
 			void *val = s->base + offs;
