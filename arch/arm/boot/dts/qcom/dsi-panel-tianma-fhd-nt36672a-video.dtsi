@@ -243,7 +243,7 @@
 		qcom,mdss-dsi-on-command-state = "dsi_lp_mode";
 		qcom,mdss-dsi-off-command-state = "dsi_hs_mode";
 		qcom,mdss-dsi-h-sync-pulse = <1>;
-		qcom,mdss-dsi-traffic-mode = "burst_mode";
+		qcom,mdss-dsi-traffic-mode = "non_burst_sync_pulse";
 		qcom,mdss-dsi-bllp-eof-power-mode;
 		qcom,mdss-dsi-bllp-power-mode;
 		qcom,mdss-dsi-lp11-init;
