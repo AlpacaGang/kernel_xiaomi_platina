@@ -1931,9 +1931,9 @@ static int32_t nvt_ts_probe(struct i2c_client *client, const struct i2c_device_i
 	if (client->irq) {
 		NVT_LOG("int_trigger_type=%d\n", ts->int_trigger_type);
 #if WAKEUP_GESTURE
-		ret = request_threaded_irq(client->irq, NULL, nvt_ts_irq_handler, ts->int_trigger_type | IRQF_ONESHOT, client->name, ts);
+		ret = request_threaded_irq(client->irq, NULL, nvt_ts_irq_handler, ts->int_trigger_type | IRQF_ONESHOT | IRQF_PERF_CRITICAL, client->name, ts);
 #else
-		ret = request_irq(client->irq, nvt_ts_irq_handler, ts->int_trigger_type, client->name, ts);
+		ret = request_irq(client->irq, nvt_ts_irq_handler, ts->int_trigger_type | IRQF_PERF_CRITICAL, client->name, ts);
 #endif
 
 		if (ret != 0) {
