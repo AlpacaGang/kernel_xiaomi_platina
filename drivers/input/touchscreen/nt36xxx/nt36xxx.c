@@ -1195,15 +1195,10 @@ static void nvt_ts_work_func(void)
 #endif /* MT_PROTOCOL_B */
 	int32_t i = 0;
 	int32_t finger_cnt = 0;
-	mutex_lock(&ts->lock);
 
-	if (ts->dev_pm_suspend) {
-		ret = wait_for_completion_timeout(&ts->dev_pm_suspend_completion, msecs_to_jiffies(500));
-		if (!ret) {
-			NVT_ERR("system(i2c) can't finished resuming procedure, skip it\n");
-			goto XFER_ERROR;
-		}
-	}
+	struct sched_param param = { .sched_priority = MAX_USER_RT_PRIO / 2 };
+
+	sched_setscheduler(current, SCHED_FIFO, &param);
 
 	ret = CTP_I2C_READ(ts->client, I2C_FW_Address, point_data, POINT_DATA_LEN + 1);
 	if (unlikely(ret < 0)) {
@@ -1223,6 +1218,7 @@ static void nvt_ts_work_func(void)
 	if (bTouchIsAwake == 0) {
 		input_id = (uint8_t) (point_data[1] >> 3);
 		nvt_ts_wakeup_gesture_report(input_id, point_data);
+		enable_irq(ts->client->irq);
 		mutex_unlock(&ts->lock);
 		return;
 	}
@@ -1263,8 +1259,6 @@ static void nvt_ts_work_func(void)
 		}
 	}
 
-#if MT_PROTOCOL_B
-
 	for (i = 0; i < ts->max_touch_num; i++) {
 		if (likely(press_id[i] != 1)) {
 			input_mt_slot(ts->input_dev, i);
@@ -1274,14 +1268,8 @@ static void nvt_ts_work_func(void)
 	}
 
 	input_report_key(ts->input_dev, BTN_TOUCH, (finger_cnt > 0));
-#else /* MT_PROTOCOL_B */
+	input_sync(ts->input_dev);
 
-	if (finger_cnt == 0) {
-		input_report_key(ts->input_dev, BTN_TOUCH, 0);
-		input_mt_sync(ts->input_dev);
-	}
-
-#endif /* MT_PROTOCOL_B */
 #if TOUCH_KEY_NUM > 0
 
 	if (point_data[61] == 0xF8) {
