@@ -109,3 +109,4 @@ obj-$(CONFIG_HARDENED_USERCOPY) += usercopy.o
 ccflags-y := -O3
 ccflags-y += $(call cc-option, -g0)
 ccflags-y += $(call cc-option, -Os)
+CFLAGS_kmemleak.o += -DCONFIG_DEBUG_FS
