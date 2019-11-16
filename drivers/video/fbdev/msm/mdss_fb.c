@@ -47,6 +47,8 @@
 #include <linux/kthread.h>
 #include <linux/dma-buf.h>
 #include <linux/cpu_input_boost.h>
+#include <linux/devfreq_boost.h>
+#include <linux/boost_control.h>
 #include <linux/interrupt.h>
 #include <linux/wakelock.h>
 #include <linux/mdss_io_util.h>
@@ -5290,8 +5292,14 @@ int mdss_fb_do_ioctl(struct fb_info *info, unsigned int cmd,
 		ret = mdss_fb_mode_switch(mfd, dsi_mode);
 		break;
 	case MSMFB_ATOMIC_COMMIT:
-		devfreq_boost_kick(DEVFREQ_MSM_CPUBW);
+		#if CONFIG_BOOST_CONTROL
+		if(enable_fb_boost){
+		#endif
 		cpu_input_boost_kick();
+		devfreq_boost_kick(DEVFREQ_MSM_CPUBW);
+		#if CONFIG_BOOST_CONTROL
+		}
+		#endif
 		ret = mdss_fb_atomic_commit_ioctl(info, argp, file);
 		break;
 
