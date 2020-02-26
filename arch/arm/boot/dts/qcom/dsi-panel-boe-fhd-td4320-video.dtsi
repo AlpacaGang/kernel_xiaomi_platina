@@ -155,5 +155,12 @@
 			15 01 00 00 00 00 02 CA 1D];
 		qcom,mdss-dsi-dispparam-skin-ce-off-command = [
 			15 01 00 00 00 00 02 CA 1C];
+		
+		cm,mdss-livedisplay-cabc-cmd = [
+				15 01 00 00 00 00 02 55 00
+		];
+		cm,mdss-livedisplay-cabc-ui-value = <0x01>;
+		cm,mdss-livedisplay-cabc-image-value = <0x02>;
+		cm,mdss-livedisplay-cabc-video-value = <0x03>;
 	};
 };
