@@ -137,7 +137,7 @@ struct cfq_queue {
 	/* time when first request from queue completed and slice started. */
 	u64 slice_start;
 	u64 slice_end;
-	u64 slice_resid;
+	s64 slice_resid;
 
 	/* pending priority requests */
 	int prio_pending;
@@ -2665,7 +2665,7 @@ __cfq_slice_expired(struct cfq_data *cfqd, struct cfq_queue *cfqq,
 			cfqq->slice_resid = cfq_scaled_cfqq_slice(cfqd, cfqq);
 		else
 			cfqq->slice_resid = cfqq->slice_end - ktime_get_ns();
-		cfq_log_cfqq(cfqd, cfqq, "resid=%llu", cfqq->slice_resid);
+		cfq_log_cfqq(cfqd, cfqq, "resid=%lld", cfqq->slice_resid);
 	}
 
 	cfq_group_served(cfqd, cfqq->cfqg, cfqq);
@@ -4084,7 +4084,7 @@ cfq_rq_enqueued(struct cfq_data *cfqd, struct cfq_queue *cfqq,
 		 * idle timer unplug to continue working.
 		 */
 		if (cfq_cfqq_wait_request(cfqq)) {
-			if (blk_rq_bytes(rq) > PAGE_CACHE_SIZE ||
+			if (blk_rq_bytes(rq) > PAGE_SIZE ||
 			    cfqd->busy_queues > 1) {
 				cfq_del_timer(cfqd, cfqq);
 				cfq_clear_cfqq_wait_request(cfqq);
