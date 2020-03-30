@@ -10,6 +10,7 @@
 #include <linux/fb.h>
 #include <linux/input.h>
 #include <linux/kthread.h>
+#include <linux/cpuset.h>
 #include <linux/boost_control.h>
 
 unsigned long last_input_time;
@@ -91,6 +92,8 @@ static void __cpu_input_boost_kick(struct boost_drv *b)
 
 	set_bit(INPUT_BOOST, &b->state);
 
+	do_busy_bg_cpuset();
+
 	#ifdef CONFIG_DYNAMIC_STUNE_BOOST
 	do_stune_boost("top-app", dynamic_stune_boost);
 	#endif
@@ -136,6 +139,8 @@ void cpu_input_boost_kick_max(unsigned int duration_ms)
 {
 	struct boost_drv *b = &boost_drv_g;
 
+	do_busy_bg_cpuset();
+
 	#ifdef CONFIG_DYNAMIC_STUNE_BOOST
 	do_stune_boost("top-app", dynamic_stune_boost);
 	#endif
@@ -151,6 +156,8 @@ static void input_unboost_worker(struct work_struct *work)
 	clear_bit(INPUT_BOOST, &b->state);
 	wake_up(&b->boost_waitq);
 
+	do_idle_bg_cpuset();
+
 	#ifdef CONFIG_DYNAMIC_STUNE_BOOST
 	reset_stune_boost("top-app");
 	#endif
@@ -163,6 +170,8 @@ static void max_unboost_worker(struct work_struct *work)
 
 	clear_bit(MAX_BOOST, &b->state);
 	wake_up(&b->boost_waitq);
+
+	do_idle_bg_cpuset();
 
 	#ifdef CONFIG_DYNAMIC_STUNE_BOOST
 	reset_stune_boost("top-app");
@@ -304,6 +313,8 @@ free_handle:
 
 static void cpu_input_boost_input_disconnect(struct input_handle *handle)
 {
+
+	do_idle_bg_cpuset();
 
 	#ifdef CONFIG_DYNAMIC_STUNE_BOOST
 	reset_stune_boost("top-app");
