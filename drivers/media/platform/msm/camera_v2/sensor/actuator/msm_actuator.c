@@ -15,6 +15,7 @@
 
 #include <linux/module.h>
 #include <linux/firmware.h>
+#include <linux/devfreq_boost.h>
 #include "msm_sd.h"
 #include "msm_actuator.h"
 #include "msm_cci.h"
@@ -603,6 +604,8 @@ static int32_t msm_actuator_move_focus(
 	a_ctrl->i2c_client.addr_type = MSM_CAMERA_I2C_BYTE_ADDR;
 
 	CDBG("called, dir %d, num_steps %d\n", dir, num_steps);
+
+	devfreq_boost_kick_max(DEVFREQ_MSM_CPUBW, 50);
 
 	if (a_ctrl->step_position_table == NULL) {
 		pr_err("Step Position Table is NULL\n");
