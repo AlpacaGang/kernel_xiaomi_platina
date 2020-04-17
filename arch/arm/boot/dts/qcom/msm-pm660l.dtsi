@@ -44,7 +44,7 @@
 			compatible = "qcom,qpnp-temp-alarm";
 			reg = <0x2400 0x100>;
 			interrupts = <0x2 0x24 0x0 IRQ_TYPE_EDGE_RISING>;
-			label = "pm660l_tz";
+                            label = "pm660l_tz";
 		};
 
 		pm660l_gpios: gpios {
@@ -214,12 +214,16 @@
 				qcom,max-current = <12>;
 				qcom,default-state = "off";
 				linux,name = "white";
-				qcom,start-idx = <0>;
-				qcom,idx-len = <22>;
-				qcom,duty-pcts =
-					[01 0a 14 1e 28 32 3c 46 50 5a 64
-					64 5a 50 46 3c 32 28 1e 14 0a 01];
-				qcom,use-blink;
+//				qcom,start-idx = <0>;
+//				qcom,idx-len = <22>;
+				qcom,start-idx = <1>;
+                            qcom,duty-pcts = [ 00 0E 1C 2A 38 46 54 64 ];
+      	                     qcom,idx-len = <8>;
+      	                     qcom,pause-lo = <500>;
+      	                     qcom,pause-hi = <500>;
+      	                     qcom,ramp-step-ms = <50>;
+      	                     qcom,lut-flags = <31>; /* loop, ramp up, reverse, pause hi, pause lo */
+      	                     qcom,use-blink;
 			};
 
 			green_led: qcom,rgb_1 {
