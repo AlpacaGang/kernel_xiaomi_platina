@@ -66,8 +66,6 @@ uint32_t g_ZL = 0;
 uint32_t g_ZR = 0;
 #endif
 
-/* Add for get headset state tsx 10/19 */
-struct switch_dev sdev;
 static int det_extn_cable_en;
 extern bool hs_record_active;
 
