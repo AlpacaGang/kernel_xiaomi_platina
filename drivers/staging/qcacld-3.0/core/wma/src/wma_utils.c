@@ -1607,17 +1607,6 @@ static int wma_unified_radio_tx_power_level_stats_event_handler(void *handle,
 							 fixed_param->radio_id;
 	tx_power_level_values = (uint8_t *) param_tlvs->tx_time_per_power_level;
 
-	if (rs_results->total_num_tx_power_levels &&
-	    fixed_param->total_num_tx_power_levels >
-		rs_results->total_num_tx_power_levels) {
-		WMA_LOGE("%s: excess tx_power buffers:%d, total_num_tx_power_levels:%d",
-			 __func__, fixed_param->total_num_tx_power_levels,
-			 rs_results->total_num_tx_power_levels);
-		return -EINVAL;
-	}
-
-	rs_results->total_num_tx_power_levels =
-				fixed_param->total_num_tx_power_levels;
 	if (!rs_results->total_num_tx_power_levels) {
 		link_stats_results->nr_received++;
 		goto post_stats;
@@ -3296,14 +3285,6 @@ int wma_stats_event_handler(void *handle, uint8_t *cmd_param_info,
 			buf_len += event->num_peer_stats * sizeof(*peer_stats);
 		}
 
-		if (buf_len > param_buf->num_data) {
-			WMA_LOGE("%s: num_data: %d Invalid num_pdev_stats:%d or num_vdev_stats:%d or num_peer_stats:%d",
-				__func__, param_buf->num_data,
-				event->num_pdev_stats,
-				event->num_vdev_stats, event->num_peer_stats);
-			return -EINVAL;
-		}
-
 		rssi_event =
 			(wmi_per_chain_rssi_stats *) param_buf->chain_stats;
 		if (rssi_event) {
@@ -3324,6 +3305,7 @@ int wma_stats_event_handler(void *handle, uint8_t *cmd_param_info,
 		WMA_LOGE("excess wmi buffer: stats pdev %d vdev %d peer %d",
 			 event->num_pdev_stats, event->num_vdev_stats,
 			 event->num_peer_stats);
+		QDF_ASSERT(0);
 		return -EINVAL;
 	}
 
@@ -4098,7 +4080,6 @@ void wma_get_stats_req(WMA_HANDLE handle,
 	tp_wma_handle wma_handle = (tp_wma_handle) handle;
 	struct wma_txrx_node *node;
 	struct pe_stats_req  cmd = {0};
-	uint8_t pdev_id;
 	tAniGetPEStatsRsp *pGetPEStatsRspParams;
 
 
@@ -4144,10 +4125,6 @@ void wma_get_stats_req(WMA_HANDLE handle,
 		node->stats_rsp->statsMask, get_stats_param->sessionId);
 
 	cmd.session_id = get_stats_param->sessionId;
-
-	cds_get_mac_id_by_session_id(get_stats_param->sessionId, &pdev_id);
-	cmd.pdev_id = WMA_MAC_TO_PDEV_MAP(pdev_id);
-
 	cmd.stats_mask = get_stats_param->statsMask;
 	if (wmi_unified_get_stats_cmd(wma_handle->wmi_handle, &cmd,
 				 node->bssid)) {

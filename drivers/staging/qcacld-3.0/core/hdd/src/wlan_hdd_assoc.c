@@ -230,7 +230,8 @@ hdd_conn_set_authenticated(hdd_adapter_t *pAdapter, uint8_t authState)
 		qdf_mem_set(auth_time, 0x00, time_buffer_size);
 
 	/* Check is pending ROC request or not when auth state changed */
-	schedule_delayed_work(&pHddCtx->roc_req_work, 0);
+	queue_delayed_work(system_freezable_wq,
+			&pHddCtx->roc_req_work, 0);
 }
 
 /**
@@ -268,7 +269,8 @@ void hdd_conn_set_connection_state(hdd_adapter_t *adapter,
 		qdf_mem_set(connect_time, 0x00, time_buffer_size);
 
 	if (conn_state != eConnectionState_NdiConnected)
-		schedule_delayed_work(&hdd_ctx->roc_req_work, 0);
+		queue_delayed_work(system_freezable_wq,
+			&hdd_ctx->roc_req_work, 0);
 }
 
 /**
@@ -1745,7 +1747,6 @@ static QDF_STATUS hdd_dis_connect_handler(hdd_adapter_t *pAdapter,
 	hdd_clear_roam_profile_ie(pAdapter);
 	hdd_wmm_init(pAdapter);
 	hdd_debug("Invoking packetdump deregistration API");
-	wlan_deregister_txrx_packetdump();
 
 	/* indicate 'disconnect' status to wpa_supplicant... */
 	hdd_send_association_event(dev, pRoamInfo);
@@ -3279,7 +3280,6 @@ static QDF_STATUS hdd_association_completion_handler(hdd_adapter_t *pAdapter,
 				       get_e_roam_cmd_status_str(roamStatus));
 			}
 			hdd_debug("Invoking packetdump deregistration API");
-			wlan_deregister_txrx_packetdump();
 
 			/* inform association failure event to nl80211 */
 			if (eCSR_ROAM_RESULT_ASSOC_FAIL_CON_CHANNEL ==
@@ -5519,7 +5519,8 @@ hdd_sme_roam_callback(void *pContext, tCsrRoamInfo *pRoamInfo, uint32_t roamId,
 		pAdapter->roam_ho_fail = false;
 		pHddStaCtx->ft_carrier_on = false;
 		complete(&pAdapter->roaming_comp_var);
-		schedule_delayed_work(&pHddCtx->roc_req_work, 0);
+		queue_delayed_work(system_freezable_wq,
+			&pHddCtx->roc_req_work, 0);
 		break;
 	case eCSR_ROAM_SAE_COMPUTE:
 		if (pRoamInfo)

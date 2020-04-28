@@ -1482,7 +1482,6 @@ QDF_STATUS hdd_wlan_shutdown(void)
 	cds_clear_concurrent_session_count();
 
 	hdd_debug("Invoking packetdump deregistration API");
-	wlan_deregister_txrx_packetdump();
 
 	/*
 	 * After SSR, FW clear its txrx stats. In host,
@@ -2118,7 +2117,8 @@ next_adapter:
 		if (pAdapter->sessionId >= MAX_NUMBER_OF_ADAPTERS)
 			goto fetch_adapter;
 
-		sme_ps_timer_flush_sync(pHddCtx->hHal, pAdapter->sessionId);
+		if (!wlan_hdd_validate_session_id(pAdapter->sessionId))
+			sme_ps_timer_flush_sync(pHddCtx->hHal, pAdapter->sessionId);
 fetch_adapter:
 		status = hdd_get_next_adapter(pHddCtx, pAdapterNode,
 					      &pAdapterNode);
