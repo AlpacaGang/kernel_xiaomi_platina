@@ -44,6 +44,9 @@
 #include <linux/input/tp_common.h>
 #endif
 
+bool synaptics_gesture_enable_flag = false; 
+EXPORT_SYMBOL(synaptics_gesture_enable_flag);   
+
 #define PREDICTIVE_READING
 
 #define MIN_READ_LENGTH 9
