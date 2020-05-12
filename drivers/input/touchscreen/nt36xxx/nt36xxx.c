@@ -130,7 +130,7 @@ const uint16_t gesture_key_array[] = {
 	KEY_POWER,  /*GESTURE_SLIDE_RIGHT*/
 };
 
-bool enable_gesture_mode = false;
+bool enable_gesture_mode = true;
 EXPORT_SYMBOL(enable_gesture_mode);
 
 #ifdef CONFIG_TOUCHSCREEN_COMMON
