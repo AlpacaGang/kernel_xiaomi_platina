@@ -3534,7 +3534,7 @@ static int syna_tcm_probe(struct platform_device *pdev)
 				"Failed to get regulators\n");
 		goto err_get_regulator;
 	}
-	retval = syna_tcm_enable_regulator(tcm_hcd, true);
+	// retval = syna_tcm_enable_regulator(tcm_hcd, true);
     
 #ifdef CONFIG_TOUCHSCREEN_COMMON
     retval = tp_common_set_double_tap_ops(&double_tap_ops);
@@ -3544,12 +3544,13 @@ static int syna_tcm_probe(struct platform_device *pdev)
                 __func__, retval);
     }
 #endif
-
+/*
 	if (retval < 0) {
 		LOGE(tcm_hcd->pdev->dev.parent,
 				"Failed to enable regulators\n");
 		goto err_enable_regulator;
 	}
+*/
 	if (tcm_hcd->i2c_reg) {
 		retval = regulator_enable(tcm_hcd->i2c_reg);
 		if (retval < 0) {
