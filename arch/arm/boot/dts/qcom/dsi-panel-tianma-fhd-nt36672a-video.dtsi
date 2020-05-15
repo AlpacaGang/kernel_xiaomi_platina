@@ -265,7 +265,6 @@
 		qcom,mdss-dsi-tx-eot-append;
 		qcom,ulps-enabled;
 		qcom,esd-err-irq-gpio = <&tlmm 59 0x2001>;
-		qcom,esd-check-enabled;
 		qcom,dispparam-enabled;
               qcom,mdss-dsi-panel-hdr-enabled;
               qcom,mdss-dsi-panel-hdr-color-primaries = <14500 15500 32000
