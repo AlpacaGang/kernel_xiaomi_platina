@@ -463,7 +463,7 @@ int kobject_uevent_env(struct kobject *kobj, enum kobject_action action,
 #endif
 
 #ifdef CONFIG_UEVENTS_RECORD
-	uevents_collect(env);
+	uevents_collect(&env);
 #endif
 
 exit:
