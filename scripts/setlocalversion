@@ -46,12 +46,11 @@ scm_version()
 	if test -z "$(git rev-parse --show-cdup 2>/dev/null)" &&
 	   head=`git rev-parse --verify --short=8 HEAD 2>/dev/null`; then
 
-		# Get current date, get branch, get commit sha, leave.
-		if test "$CONFIG_LOCALVERSION_DATE_BRANCH_SHA" = "y"; then
+		# Get current date, get commit sha, leave.
+		if test "$CONFIG_LOCALVERSION_DATE_SHA" = "y"; then
 			last_commit=$(git rev-parse --verify --short=8 HEAD)
-                     branch_name=$(git rev-parse --abbrev-ref HEAD)
                      cur_date=$(date '+%Y%m%d')
-			printf '%s' "-$cur_date-$branch_name/$last_commit"
+			printf '%s' "-$cur_date-$last_commit"
 			return
 		fi
 
