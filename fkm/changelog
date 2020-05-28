@@ -1,18 +1,4 @@
-- 4.4.224 merged
-- LA.UM.8.2.r1-06600-sdm660.0 merged
-- Deep sleep improvements
-- Returned back power-efficient workingqueues by default
-- Wireguard updated to 1.0.20200520
-- Reduced heating
-- Added backlight dimmer option 
-- sLMK updated
-- USB otg fixes
-- blk/cfq optimized 
-- Tuned-up vibro motor (makes the vibration far more consistent)
-- Rare ext4 panic fixed
-- Increased polling interval in idle to 1000ms (less consumption in idle)
-- Added the panel-ack-disabled property to tianma/boe panels
-- Used sync pulses for panels
-- Synced some 223 merge changes with als
-- AnyKernel3 updated
-- Other useful improvements
+- 4.4.225 merged
+- Ported xiaomi haptics changes
+
+Minor update, so it is r10.1, not r11
