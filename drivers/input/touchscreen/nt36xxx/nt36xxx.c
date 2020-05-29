@@ -1,7 +1,7 @@
 
 /*
  * Copyright (C) 2010 - 2017 Novatek, Inc.
- * Copyright (C) 2019 XiaoMi, Inc.
+ * Copyright (C) 2020 XiaoMi, Inc.
  *
  * $Revision: 20544 $
  * $Date: 2017-12-20 11:08:15 +0800 (週三, 20 十二月 2017) $
@@ -1153,10 +1153,11 @@ static void nvt_switch_mode_work(struct work_struct *work)
 	struct nvt_ts_data *data = ms->nvt_data;
 	unsigned char value = ms->mode;
 
-	if (value >= INPUT_EVENT_WAKUP_MODE_OFF && value <= INPUT_EVENT_WAKUP_MODE_ON)
+	if (value >= INPUT_EVENT_WAKUP_MODE_OFF && value <= INPUT_EVENT_WAKUP_MODE_ON) {
 		data->gesture_enabled = value - INPUT_EVENT_WAKUP_MODE_OFF;
-	else
+	} else {
 		NVT_ERR("Does not support touch mode %d\n", value);
+	}
 
 	if (ms != NULL) {
 		kfree(ms);
@@ -1860,6 +1861,7 @@ static int32_t nvt_ts_probe(struct i2c_client *client, const struct i2c_device_i
 #if ((TOUCH_KEY_NUM > 0) || WAKEUP_GESTURE)
 	int32_t retry = 0;
 #endif
+	char *tp_maker = NULL;
 	NVT_LOG("start\n");
 	ts = kzalloc(sizeof(struct nvt_ts_data), GFP_KERNEL);
 
@@ -2024,6 +2026,14 @@ static int32_t nvt_ts_probe(struct i2c_client *client, const struct i2c_device_i
 	}
 
 	ts->fw_name = nvt_get_config(ts);
+	tp_maker = kzalloc(20, GFP_KERNEL);
+
+	if (tp_maker == NULL)
+		NVT_ERR("fail to alloc vendor name memory\n");
+	else {
+		kfree(tp_maker);
+		tp_maker = NULL;
+	}
 
 	ts->dbclick_count = 0;
 	device_init_wakeup(&client->dev, 1);

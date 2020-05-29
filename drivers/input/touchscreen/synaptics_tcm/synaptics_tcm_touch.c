@@ -1068,7 +1068,7 @@ static void syna_tcm_switch_mode_work(struct work_struct *work)
 	} else {
 		LOGE(tcm_hcd->pdev->dev.parent, "Does not support touch mode %d\n", value);
 	}
-	if (ms != NULL) {
+	if(ms != NULL) {
 		kfree(ms);
 		ms = NULL;
 	}
