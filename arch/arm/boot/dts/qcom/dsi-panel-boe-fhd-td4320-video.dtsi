@@ -88,6 +88,11 @@
 		qcom,mdss-pan-physical-height-dimension = <144>;
 		qcom,mdss-dsi-tx-eot-append;
 		qcom,ulps-enabled;
+		qcom,mdss-dsi-pan-enable-dynamic-bitclk;
+		qcom,mdss-dsi-dynamic-bitclk_freq = <798240576 801594528 804948480
+			808302432 811656384>;
+		qcom,mdss-dsi-pan-enable-dynamic-fps;
+		qcom,mdss-dsi-pan-fps-update = "dfps_immediate_porch_mode_vfp";
 		qcom,esd-err-irq-gpio = <&tlmm 59 0x2001>;
 		qcom,esd-check-enabled;
 		qcom,dispparam-enabled;
