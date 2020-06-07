@@ -1087,50 +1087,54 @@ return:
 *******************************************************/
 void Boot_Update_Firmware(void)
 {
-	int32_t ret = 0;
-	char firmware_name[256] = "";
-
-	if (ts->fw_name)
-		snprintf(firmware_name, strlen(ts->fw_name) + 1, ts->fw_name);
-	else
-		snprintf(firmware_name, strlen(BOOT_UPDATE_FIRMWARE_NAME), BOOT_UPDATE_FIRMWARE_NAME);
-
-	/* request bin file in "/etc/firmware" */
-	ret = update_firmware_request(firmware_name);
-
-	if (ret) {
-		NVT_ERR("update_firmware_request failed. (%d)\n", ret);
+	if(BOOT_UPDATE_FIRMWARE == 0) {
 		return;
-	}
-
-	mutex_lock(&ts->lock);
-#if NVT_TOUCH_ESD_PROTECT
-	nvt_esd_check_enable(false);
-#endif /* #if NVT_TOUCH_ESD_PROTECT */
-	nvt_sw_reset_idle();
-	ret = Check_CheckSum();
-
-	if (ret < 0) {	/* read firmware checksum failed */
-		NVT_ERR("read firmware checksum failed\n");
-		Update_Firmware();
-	} else if ((ret == 0) && (Check_FW_Ver() == 0)) {	/* (fw checksum not match) && (bin fw version >= ic fw version) */
-		NVT_LOG("firmware version not match\n");
-		Update_Firmware();
-	} else if (nvt_check_flash_end_flag()) {
-		NVT_LOG("check flash end flag failed\n");
-		Update_Firmware();
 	} else {
-		/* Bootloader Reset */
-		nvt_bootloader_reset();
-		ret = nvt_check_fw_reset_state(RESET_STATE_INIT);
+		int32_t ret = 0;
+		char firmware_name[256] = "";
+
+		if (ts->fw_name)
+			snprintf(firmware_name, strlen(ts->fw_name) + 1, ts->fw_name);
+		else
+			snprintf(firmware_name, strlen(BOOT_UPDATE_FIRMWARE_NAME), BOOT_UPDATE_FIRMWARE_NAME);
+
+		/* request bin file in "/etc/firmware" */
+		ret = update_firmware_request(firmware_name);
 
 		if (ret) {
-			NVT_LOG("check fw reset state failed\n");
-			Update_Firmware();
+			NVT_ERR("update_firmware_request failed. (%d)\n", ret);
+			return;
 		}
-	}
 
-	mutex_unlock(&ts->lock);
-	update_firmware_release();
+		mutex_lock(&ts->lock);
+#if NVT_TOUCH_ESD_PROTECT
+		nvt_esd_check_enable(false);
+#endif /* #if NVT_TOUCH_ESD_PROTECT */
+		nvt_sw_reset_idle();
+		ret = Check_CheckSum();
+
+		if (ret < 0) {	/* read firmware checksum failed */
+			NVT_ERR("read firmware checksum failed\n");
+			Update_Firmware();
+		} else if ((ret == 0) && (Check_FW_Ver() == 0)) {	/* (fw checksum not match) && (bin fw version >= ic fw version) */
+			NVT_LOG("firmware version not match\n");
+			Update_Firmware();
+		} else if (nvt_check_flash_end_flag()) {
+			NVT_LOG("check flash end flag failed\n");
+			Update_Firmware();
+		} else {
+			/* Bootloader Reset */
+			nvt_bootloader_reset();
+			ret = nvt_check_fw_reset_state(RESET_STATE_INIT);
+
+			if (ret) {
+				NVT_LOG("check fw reset state failed\n");
+				Update_Firmware();
+			}
+		}
+
+		mutex_unlock(&ts->lock);
+		update_firmware_release();
+	}
 }
 
