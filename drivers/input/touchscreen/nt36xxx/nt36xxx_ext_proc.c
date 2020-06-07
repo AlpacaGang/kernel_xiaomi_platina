@@ -24,7 +24,6 @@
 
 #include "nt36xxx.h"
 
-#if NVT_TOUCH_EXT_PROC
 #define NVT_FW_VERSION "nvt_fw_version"
 #define NVT_BASELINE "nvt_baseline"
 #define NVT_RAW "nvt_raw"
@@ -1067,4 +1066,3 @@ int32_t nvt_extra_proc_init(void)
 
 	return 0;
 }
-#endif
