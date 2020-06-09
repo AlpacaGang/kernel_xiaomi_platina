@@ -1,21 +1,12 @@
-- 4.4.226 merged
-- LA.UM.8.2.r1-06700-sdm660.0 merged
-- Ported xiaomi haptics changes
-- Improved stability
-- Improved deep sleep
-- Disabled Qualcomm's resume IRQ logging
-- locking/rwsem improvements
-- cpu_input_boost, cpuset improvements
-- Lowered cpubw boosting (to reduce heating and improve battery life)
-- Added CPU boost for 50ms on camera focus
-- Added dynamic-fps support for tianma and boe panels
-- Added some parameters for boe panel (for tianma it is already here)
-- Added some power-saving display tweaks
-- Updated Mi 8 Lite touchscreen firmware
-- Updated Mi 8 Lite touchscreen drivers from q sources release
-- Enabled fq qdisc & CDG tcp cong by default
-- Added SchedTune Assist v3
-- Other improvements
+- Imported PELT
+- Switched to 16ms PELT half-life
+- Raised cpubw boost value again
+- Built with GCC 10.1
+- Marked touch/fingerprint IRQs as performance critical
+- cpu_input_boost improvements
+- msm_perfromance checkouted from 4.14
+- A lot of touch latency improvements
 
 Credits:
-- @TheOGLunarixus for importing q micode sources
+- @TheOGLunarixus for improving nt36xxx touch driver
+- @nysascape for his pelt backports
