@@ -628,28 +628,18 @@ static void smp_callback(void *v)
 static int cpuidle_latency_notify(struct notifier_block *b,
 		unsigned long l, void *v)
 {
-	static unsigned long prev_latency[NR_CPUS] = {
-		[0 ... NR_CPUS - 1] = PM_QOS_CPU_DMA_LAT_DEFAULT_VALUE
-	};
-	unsigned long update_mask = 0;
-	unsigned int cpu;
+	static unsigned long prev_latency = ULONG_MAX;
+	struct cpumask cpus;
 
-	/* Only send an IPI when the CPU latency requirement is tightened */
-	for_each_cpu(cpu, v) {
-		if (l < prev_latency[cpu])
-			update_mask |= BIT(cpu);
-		prev_latency[cpu] = l;
+	if (l < prev_latency) {
+		cpumask_andnot(&cpus, cpu_online_mask, cpu_isolated_mask);
+		preempt_disable();
+		smp_call_function_many(&cpus, smp_callback, NULL, false);
+		preempt_enable();
 	}
 
-	if (!update_mask)
-		return NOTIFY_OK;
+	prev_latency = l;
 
-	update_mask &= atomic_read(&idle_cpu_mask);
-	update_mask &= ~*cpumask_bits(cpu_isolated_mask);
-
-	/* Notifier is called with preemption disabled */
-	if (update_mask)
-		arch_send_call_function_ipi_mask(to_cpumask(&update_mask));
 	return NOTIFY_OK;
 }
 
