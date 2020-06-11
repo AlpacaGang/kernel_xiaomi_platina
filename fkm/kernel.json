@@ -1,11 +1,11 @@
 {
   "kernel": {
     "name": "AlpacaKernel",
-    "version": "r12",
-    "link": "https://build.ivan1874.cf/builds/AlpacaKernel-r12-20200609-1128-signed.zip",
+    "version": "r13",
+    "link": "https://build.ivan1874.cf/builds/AlpacaKernel-r13-20200611-1135-signed.zip",
     "changelog_url": "https://raw.githubusercontent.com/AlpacaGang/kernel_xiaomi_platina/staging/fkm/changelog",
-    "date": "2020-06-09",
-    "sha1": "6ec9aaa5653c5ebb2b19aa7d1c47263fc35bada3"
+    "date": "2020-06-11",
+    "sha1": "e27d591246c6e20ec98bc4f0d906cff65d0b57ec"
   },
   "support": {
     "link": "https://t.me/joinchat/IFo3BBWZMhYi2_hNdbVPtQ"
