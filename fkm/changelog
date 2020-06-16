@@ -1,7 +1,10 @@
-- 4.4.227 merged
-- Wireguard updated to 1.0.20200611
-- Reduced input-boost duration
-- Adjusted input boost freq for low-power cluster
-- Nuked stune/cpuset assists
-- sLMK updated
-- Other improvements
+- Optimized battery slightly
+- mm changes inline with slmk
+- Enabled TCP ECN for better handling of poor connections (similar to iOS 11+)
+- Bumped TCP receive window and memory sizes to speed up small downloads and page loads
+- Enabled namespaces and some other features to allow running full Linux containers
+- Several scheduler improvements
+- Enabled support for USB-connected xpad, ps3, steam, nintendo and other generic USB controllers
+
+Credits:
+- @kdrag0n
