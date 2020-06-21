@@ -1,10 +1,11 @@
-- Optimized battery slightly
-- mm changes inline with slmk
-- Enabled TCP ECN for better handling of poor connections (similar to iOS 11+)
-- Bumped TCP receive window and memory sizes to speed up small downloads and page loads
-- Enabled namespaces and some other features to allow running full Linux containers
-- Several scheduler improvements
-- Enabled support for USB-connected xpad, ps3, steam, nintendo and other generic USB controllers
-
-Credits:
-- @kdrag0n
+- Merged 4.4.228
+- Added treble roms support (not tested)
+- Enabled back frame pointer
+- Added missing mdss idle state node
+- Some patches from Sultan
+- Added a lot of various HID drivers
+- Increased cache locality for remote wakeups
+- Aligned scheduling periods with timer rate 
+- Don't let sleeper tasks hurt interactivity
+- Improved I/O speed
+- Nuked all cpufreq govs expect schedutil
