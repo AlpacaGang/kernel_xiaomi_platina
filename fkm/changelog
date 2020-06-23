@@ -1,11 +1,4 @@
-- Merged 4.4.228
-- Added treble roms support (not tested)
-- Enabled back frame pointer
-- Added missing mdss idle state node
-- Some patches from Sultan
-- Added a lot of various HID drivers
-- Increased cache locality for remote wakeups
-- Aligned scheduling periods with timer rate 
-- Don't let sleeper tasks hurt interactivity
-- Improved I/O speed
-- Nuked all cpufreq govs expect schedutil
+- Merged LA.UM.8.2.r1-06900-sdm660.0
+- Fixed performance issues
+- Fixed deep sleep issue
+- Improved stability
