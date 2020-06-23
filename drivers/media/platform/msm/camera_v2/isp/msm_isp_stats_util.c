@@ -1129,7 +1129,6 @@ static int msm_isp_start_stats_stream(struct vfe_device *vfe_dev_ioctl,
 		if (rc < 0) {
 			spin_unlock_irqrestore(&stream_info->lock, flags);
 			pr_err("%s: No buffer for stream%d\n", __func__, idx);
-			mutex_unlock(&vfe_dev_ioctl->buf_mgr->lock);
 			return rc;
 		}
 		init_completion(&stream_info->active_comp);

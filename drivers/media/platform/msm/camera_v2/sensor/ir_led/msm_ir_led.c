@@ -322,6 +322,10 @@ static long msm_ir_led_subdev_do_ioctl(
 	struct msm_ir_led_cfg_data_t32 *u32 =
 		(struct msm_ir_led_cfg_data_t32 *)arg;
 	struct msm_ir_led_cfg_data_t ir_led_data;
+	
+	ir_led_data.cfg_type = u32->cfg_type;
+	ir_led_data.pwm_duty_on_ns = u32->pwm_duty_on_ns;
+	ir_led_data.pwm_period_ns = u32->pwm_period_ns;
 
 	CDBG("Enter\n");
 	switch (cmd) {
@@ -331,10 +335,6 @@ static long msm_ir_led_subdev_do_ioctl(
 	default:
 		return msm_ir_led_subdev_ioctl(sd, cmd, arg);
 	}
-
-	ir_led_data.cfg_type = u32->cfg_type;
-	ir_led_data.pwm_duty_on_ns = u32->pwm_duty_on_ns;
-	ir_led_data.pwm_period_ns = u32->pwm_period_ns;
 
 	rc = msm_ir_led_subdev_ioctl(sd, cmd, &ir_led_data);
 
