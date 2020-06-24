@@ -1711,6 +1711,7 @@
 
 	qcom,msm_fastrpc {
 		compatible = "qcom,msm-fastrpc-adsp";
+		qcom,secure-domains = <0x0>;
 		qcom,fastrpc-glink;
 		qcom,fastrpc-vmid-heap-shared;
 
