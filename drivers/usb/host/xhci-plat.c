@@ -422,15 +422,15 @@ static int xhci_plat_runtime_resume(struct device *dev)
 	struct xhci_hcd *xhci = hcd_to_xhci(hcd);
 	int ret;
 
-	if (!xhci)
-		return 0;
+	ret = xhci_resume(xhci, 0);
+	if (ret)
+		return ret;
 
-	dev_dbg(dev, "xhci-plat runtime resume\n");
+	pm_runtime_disable(dev);
+	pm_runtime_set_active(dev);
+	pm_runtime_enable(dev);
 
-	ret = xhci_resume(xhci, false);
-	pm_runtime_mark_last_busy(dev);
-
-	return ret;
+	return 0;
 }
 
 static const struct dev_pm_ops xhci_plat_pm_ops = {
