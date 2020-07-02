@@ -1,6 +1,7 @@
-- wireguard updated to v1.0.20200623
-- sched, cpufreq backports (credits: @nysascape)
-- F2FS patchset from 4.14 (credits: @kenny3fcb)
-- Implemented Arter97's rapid GC
-- Other fs improvements
-- mm, ion improvements
+- Merged 4.4.229
+- Merged LA.UM.8.2.r2-02100-sdm660.0
+- Memory utilities optimization
+- LZO updates (prepared lzo-rle)
+- Random updates (optimizations for entropy, more smoother)
+- Allowed enforcing deepest idle state selection
+- Improved stability
