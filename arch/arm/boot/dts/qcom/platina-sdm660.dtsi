@@ -146,6 +146,7 @@
 	novatek@62 {
 		compatible = "novatek,NVT-ts";
 		reg = <0x62>;
+		qcom,clk-freq-out = <1000000>;
 		status = "ok";
 
 		vddio-supply = <&pm660_l11>;
@@ -177,6 +178,7 @@
 	synaptics_tcm@20 {
 		compatible = "synaptics,tcm-i2c";
 		reg = <0x20>;
+		qcom,clk-freq-out = <1000000>;
 		interrupt-parent = <&tlmm>;
 		vdd-supply = <&pm660_l11>;
 		lab-supply = <&lcdb_ldo_vreg>;
